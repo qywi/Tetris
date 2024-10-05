@@ -62,10 +62,6 @@ body {
     background-color: orange;
 }
 
-.grid>div.Q {
-  background-color: rgb(81, 0, 255);
-}
-
 .grid>div.XUI {
   background-color: rgb(18, 233, 62);
 }
@@ -89,6 +85,20 @@ body {
   background-color: rgb(60, 172, 126);
 }
 
+.grid>div.PIP {
+  background-color: rgb(124, 48, 255);
+}
+
+.grid>div.BLOCK {
+  background-color: rgb(58, 27, 255);
+}
+
+.grid>div.Q {
+  background-color: rgb(65, 17, 63);
+}
+
+
+
 
 .grid>div.I,
 .grid>div.J,
@@ -98,12 +108,13 @@ body {
 .grid>div.Z,
 .grid>div.T,
 .grid>div.Q,
-.grid>div.II,
 .grid>div.XUI,
 .grid>div.X,
 .grid>div.R,
 .grid>div.U,
 .grid>div.N,
+.grid>div.PIP,
+.grid>div.BLOCK,
 .grid>div.ghost {
     box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.2),
         inset -2px -2px 2px rgba(1, 8, 89, 0.2);
