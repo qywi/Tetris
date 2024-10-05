@@ -55,11 +55,23 @@ body {
 }
 
 .grid>div.Z {
-    background-color: rgb(255, 0, 255);
+    background-color: rgb(0, 255, 149);
 }
 
 .grid>div.T {
     background-color: orange;
+}
+
+.grid>div.Q {
+  background-color: rgb(81, 0, 255);
+}
+
+.grid>div.II {
+  background-color: rgb(0, 255, 42);
+}
+
+.grid>div.XUI {
+  background-color: rgb(255, 0, 238);
 }
 
 .grid>div.I,
@@ -69,6 +81,9 @@ body {
 .grid>div.S,
 .grid>div.Z,
 .grid>div.T,
+.grid>div.Q,
+.grid>div.II,
+.grid>div.XUI,
 .grid>div.ghost {
     box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.2),
         inset -2px -2px 2px rgba(1, 8, 89, 0.2);

@@ -1,6 +1,6 @@
 export const PLAYFIELD_COLUMNS = 10;
 export const PLAYFIELD_ROWS = 20;
-export const TETROMINO_NAMES = ['I', 'J', 'L', 'O', 'S', 'Z', 'T'];
+export const TETROMINO_NAMES = ['I', 'J', 'L', 'O', 'S', 'Z', 'T', 'Q', 'II', 'XUI'];
 export const TETROMINOES = {
   'I': [
     [0, 0, 0, 0],
@@ -36,6 +36,30 @@ export const TETROMINOES = {
     [0, 1, 0],
     [1, 1, 1],
     [0, 0, 0],
+  ],
+  'Q': [
+    [0, 1, 0],
+    [1, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1],
+    [0, 1, 0]
+  ],
+  'II': [
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0]
+  ],
+  'XUI': [
+    [0, 1, 0],
+    [0, 1, 0],
+    [1, 1, 1]
   ]
 };
 
