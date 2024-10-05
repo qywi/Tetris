@@ -1,6 +1,6 @@
 export const PLAYFIELD_COLUMNS = 10;
 export const PLAYFIELD_ROWS = 20;
-export const TETROMINO_NAMES = ['I', 'J', 'L', 'O', 'S', 'Z', 'T', 'Q', 'II', 'XUI'];
+export const TETROMINO_NAMES = ['I', 'J', 'L', 'O', 'S', 'Z', 'T', 'Q', 'XUI', 'X', 'R', 'U', 'N'];
 export const TETROMINOES = {
   'I': [
     [0, 0, 0, 0],
@@ -44,23 +44,31 @@ export const TETROMINOES = {
     [1, 1, 1],
     [0, 1, 0]
   ],
-  'II': [
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0],
-    [0, 1, 0]
-  ],
   'XUI': [
     [0, 1, 0],
     [0, 1, 0],
     [1, 1, 1]
-  ]
+  ],
+  'R': [
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 0, 0],
+  ],
+  'X': [
+    [0, 1, 0],
+    [1, 1, 1],
+    [0, 1, 0],
+  ],
+  'U': [
+    [0, 0, 0],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  'N': [
+    [0, 0, 1],
+    [1, 1, 1],
+    [0, 1, 0],
+  ],
 };
 
 export function getRandomElement(array) {

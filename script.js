@@ -30,7 +30,7 @@ function startGame(difficulty) {
         break;
       case 'nightmares':
         difficultyMultiplier = 5;
-        gameSpeed = 100;
+        gameSpeed = 200;
         break;
     }
     
