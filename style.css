@@ -1,0 +1,222 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    height: 100svh;
+    background: linear-gradient(90deg, rgb(122, 1, 251), rgb(255, 255, 66), rgb(255, 44, 44));
+    font-family: Arial, Helvetica, sans-serif;
+    user-select: none;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, auto);
+    grid-template-rows: repeat(20, auto);
+    padding: 0.6vh;
+    gap: 0.3vh;
+    border-radius: 0.6vh;
+    background-color: rgba(1, 8, 89, 0.5);
+}
+
+.grid>div {
+    --cell-size: min(4.5vh, 7.5vw);
+    height: var(--cell-size);
+    width: var(--cell-size);
+    border-radius: 0.3vh;
+    background-color: rgba(126, 150, 221, 0.2);
+}
+
+.grid>div.I {
+    background-color: red;
+}
+
+.grid>div.J {
+    background-color: rgb(30, 111, 177);
+}
+
+.grid>div.L {
+    background-color: green;
+}
+
+.grid>div.O {
+    background-color: yellow;
+}
+
+.grid>div.S {
+    background-color: purple;
+}
+
+.grid>div.Z {
+    background-color: rgb(255, 0, 255);
+}
+
+.grid>div.T {
+    background-color: orange;
+}
+
+.grid>div.I,
+.grid>div.J,
+.grid>div.L,
+.grid>div.O,
+.grid>div.S,
+.grid>div.Z,
+.grid>div.T,
+.grid>div.ghost {
+    box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.2),
+        inset -2px -2px 2px rgba(1, 8, 89, 0.2);
+}
+
+.grid>div.ghost {
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 5;
+  }
+  
+  .grid>div.hide {
+    animation: hide 0.5s;
+  }
+  
+  @keyframes hide {
+    0% {
+      transform: scale(0.8) rotate(30deg);
+    }
+  
+    45% {
+      transform: scale(0.8) rotate(-30deg);
+    }
+  
+    90% {
+      transform: scale(1) rotate(0);
+    }
+  }
+
+.scoreboard {
+    position: absolute;
+    top: 2vh;
+    right: 2vh;
+    padding: 1vh 2vh;
+    border-radius: 1vh;
+    background-color: rgba(1, 8, 89, 0.7);
+    color: white;
+    font-size: 2vh;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.scoreboard h2 {
+    margin: 0;
+}
+
+.difficulty-menu {
+    position: absolute;
+    border-radius: 3vh;
+    height: 30vh;
+    width: 70vh;
+    background: linear-gradient(52deg, rgb(255, 44, 44), rgb(255, 255, 66), rgb(122, 1, 251));
+    display: flex;
+    justify-content: center;
+}
+
+.text-difficult {
+    text-align: center;
+    margin-top: 3vh;
+}
+
+.difficult {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 52%;
+    gap: 3%;
+}
+
+.button {
+    border-radius: 3vh;
+    width: 30%;
+    height: 30%;
+    text-align: center;
+    border: 0.5vh solid ;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+}
+
+#baby {
+    background-color: greenyellow;
+}
+
+#normal {
+    background-color: rgb(47, 189, 255);
+}
+
+#nightmares {
+    background-color: rgb(176, 33, 33);
+}
+
+.hidden {
+    display: none;
+  }
+  
+  #game-over-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(52deg, rgb(255, 44, 44), rgb(255, 255, 66), rgb(122, 1, 251));
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  #game-over-menu h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .menu-buttons img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  #leaderboard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  #leaderboard-container {
+    position: relative;
+  }
+  
+  #score-table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  #score-table th, #score-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid white;
+  }
+  
