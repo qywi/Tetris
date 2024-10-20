@@ -115,6 +115,7 @@ function initTouch() {
       case 'nightmares':
         difficultyMultiplier = 4;
         gameSpeed = 200;
+        gameState.difficulty = 'nightmares'
 
         audio1.pause();
         audio1.currentTime = 0; 
@@ -122,6 +123,21 @@ function initTouch() {
         audio2.loop = true; 
       break;
     }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        hit.pause();
+        hitTrick.pause();
+        audio1.pause();
+        audio2.pause();
+      } else {
+        if (gameState.difficulty === 'nightmares') {
+          audio2.play(); 
+        } else {
+          audio1.play(); 
+        }
+      }
+    });
 
     document.querySelector('.difficulty-menu').style.display = 'none';
     initKeydown();
