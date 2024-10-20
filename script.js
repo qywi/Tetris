@@ -1,24 +1,108 @@
 import { Tetris } from "./tetris.js";
-import { PLAYFIELD_COLUMNS, PLAYFIELD_ROWS, convertPositionToIndex } from "./utilities.js"
+import { PLAYFIELD_COLUMNS, PLAYFIELD_ROWS, convertPositionToIndex } from "./utilities.js";
+import { gameState } from "./gameState.js";
 
+let hammer;
 let requestId;
 let timeoutId;
 const tetris = new Tetris();
 const cells = document.querySelectorAll('.grid>div');
 
+export const hit =  document.querySelector('.hit');
+export const hitTrick =  document.querySelector('.hit-trick');
+const audio1 =  document.querySelector('.audio1');
+const audio2 =  document.querySelector('.audio2');
+
 export let difficultyMultiplier = 1;
 let gameSpeed = 500;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('click', playAudioOnInteraction);
+  document.addEventListener('keydown', playAudioOnInteraction);
+});
+
+function playAudioOnInteraction() {
+  document.removeEventListener('click', playAudioOnInteraction);
+  document.removeEventListener('keydown', playAudioOnInteraction);
+  
+  audio1.play().then(() => {
+    audio1.loop = true;
+  }).catch((error) => {
+    console.error('Ошибка при воспроизведении аудио:', error);
+  });
+}
+
+document.getElementById('vanilla').addEventListener('click', () => chooseMode('vanilla'));
+document.getElementById('experimental').addEventListener('click', () => chooseMode('experimental'));
 
 document.getElementById('baby').addEventListener('click', () => startGame('baby'));
 document.getElementById('normal').addEventListener('click', () => startGame('normal'));
 document.getElementById('nightmares').addEventListener('click', () => startGame('nightmares'));
-document.querySelector('.difficulty-menu').style.display = 'block';
+
+document.querySelector('.mode-menu').style.display = 'block';
+
+function chooseMode(mode) {
+  gameState.gameMode = mode;
+  document.querySelector('.mode-menu').style.display = 'none';
+  document.querySelector('.difficulty-menu').style.display = 'block';  
+}
 
 function initKeydown() {
   document.addEventListener('keydown', onKeydown);
 }
 
-function startGame(difficulty) {
+function initTouch() {
+  document.addEventListener('dblclick', (event) => {
+    event.preventDefault();
+  });
+
+  hammer = new Hammer(document.querySelector('body'));
+  hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+  hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+
+  const threshold = 30;
+  let deltaX = 0;
+  let deltaY = 0;
+
+  hammer.on('panstart', () => {
+    deltaX = 0;
+    deltaY = 0;
+  });
+
+  hammer.on('panleft', (event) => {
+    if (Math.abs(event.deltaX - deltaX) > threshold) {
+      moveLeft()
+      deltaX = event.deltaX;
+      deltaY = event.deltaY;
+    }
+  });
+
+  hammer.on('panright', (event) => {
+    if (Math.abs(event.deltaX - deltaX) > threshold) {
+      moveRight();
+      deltaX = event.deltaX;
+      deltaY = event.deltaY;
+    }
+  });
+
+  hammer.on('pandown', (event) => {
+    if (Math.abs(event.deltaY - deltaY) > threshold) {
+      moveDown();
+      deltaX = event.deltaX;
+      deltaY = event.deltaY;
+    }
+  });
+
+  hammer.on('swipedown', (event) => {
+    dropDown();
+  });
+
+  hammer.on('tap', () => {
+    rotate();
+  });
+};
+
+  function startGame(difficulty) {
     switch (difficulty) {
       case 'baby':
         difficultyMultiplier = 0.5;
@@ -31,11 +115,17 @@ function startGame(difficulty) {
       case 'nightmares':
         difficultyMultiplier = 4;
         gameSpeed = 200;
-        break;
+
+        audio1.pause();
+        audio1.currentTime = 0; 
+        audio2.play();
+        audio2.loop = true; 
+      break;
     }
-    
+
     document.querySelector('.difficulty-menu').style.display = 'none';
     initKeydown();
+    initTouch();
     moveDown();
   }
 
@@ -153,17 +243,19 @@ function drawGhostTetromino() {
 function gameOver() {
   stopLoop();
   document.removeEventListener('keydown', onKeydown);
+  hammer.off('panstart panleft panright pandown swipedown tap');
   saveScore(tetris.score);
   gameOverAnimation();
 }
 
 function saveScore(score) {
-    const scores = JSON.parse(localStorage.getItem('tetrisHighScores')) || [];
-    scores.push(score);
-    scores.sort((a, b) => b - a);
-    const topScores = scores.slice(0, 10);
-    localStorage.setItem('tetrisHighScores', JSON.stringify(topScores));
-  }
+  const storageKey = gameState.gameMode === 'vanilla' ? 'vanillaTetrisHighScores' : 'experimentalTetrisHighScores';
+  const scores = JSON.parse(localStorage.getItem(storageKey)) || [];
+  scores.push(score);
+  scores.sort((a, b) => b - a);
+  const topScores = scores.slice(0, 10);
+  localStorage.setItem(storageKey, JSON.stringify(topScores));
+}
 
 function gameOverAnimation() {
   const filledCells = [...cells].filter(cell => cell.classList.length > 0);
@@ -193,14 +285,15 @@ function reloadPage() {
 function showLeaderboard() {
   const leaderboard = document.getElementById('leaderboard');
   const gameOverMenu = document.getElementById('game-over-menu');
-
+  
   gameOverMenu.classList.add('hidden');
-
   leaderboard.classList.remove('hidden');
 
-  const scores = JSON.parse(localStorage.getItem('tetrisHighScores')) || [];
+  const highScoresKey = gameState.gameMode === 'experimental' ? 'experimentalTetrisHighScores' : 'vanillaTetrisHighScores';
+
+  const scores = JSON.parse(localStorage.getItem(highScoresKey)) || [];
   const scoreTableBody = document.querySelector('#score-table tbody');
-  scoreTableBody.innerHTML = '';
+  scoreTableBody.innerHTML = ''; 
 
   scores.slice(0, 10).forEach((score, index) => {
       const row = document.createElement('tr');
@@ -213,7 +306,7 @@ function showLeaderboard() {
   }, 100);
 
   leaderboard.addEventListener('click', function(event) {
-      event.stopPropagation(); 
+      event.stopPropagation();
   });
 }
 
@@ -228,7 +321,7 @@ function closeLeaderboardOnClickOutside(event) {
 function hideLeaderboard() {
   const leaderboard = document.getElementById('leaderboard');
   const gameOverMenu = document.getElementById('game-over-menu');
-
+  
   leaderboard.classList.add('hidden');
   gameOverMenu.classList.remove('hidden');
   window.removeEventListener('click', closeLeaderboardOnClickOutside);

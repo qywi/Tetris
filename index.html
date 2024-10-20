@@ -5,13 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="./script.js" type="module"></script>
 </head>
 <body>
+
+    <audio class="hit" src="stavitca_hyina.mp3"></audio>
+    <audio class="hit-trick" src="liniy_na_hui.mp3"></audio>
+    <audio class="audio1" src="zt-byte-blast-163367.mp3"></audio>
+    <audio class="audio2" src="chiptune-hard-boss-mode-218071.mp3"></audio>
 
     <div class="scoreboard">
         <h2>Score: <span id="score">0</span></h2>
     </div>
+
+    <div class="mode-menu">
+      <h2 class="text-mode">tetris mode</h2>
+      <div class="mode">
+        <div id="vanilla" class="button">vanilla</div>
+        <div id="experimental" class="button">experimental</div>
+      </div>
+    </div>    
 
     <div class="difficulty-menu">
         <h2 class="text-difficult">Choose the difficulty</h2>

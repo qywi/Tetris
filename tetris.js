@@ -7,7 +7,9 @@ import {
     rotateMatrix,
   } from "./utilities.js";
 
-import { difficultyMultiplier } from "./script.js";
+import { gameState } from "./gameState.js";  
+
+import { difficultyMultiplier, hit, hitTrick } from "./script.js";
   
   export class Tetris {
     constructor() {
@@ -29,7 +31,11 @@ import { difficultyMultiplier } from "./script.js";
     }
   
     generateTetromino() {
-      const name = getRandomElement(TETROMINO_NAMES);
+      const availableShapes = gameState.gameMode === 'vanilla' 
+      ? ['I', 'J', 'L', 'O', 'S', 'Z', 'T']
+      : TETROMINO_NAMES;
+
+      const name = getRandomElement(availableShapes);
       const matrix = TETROMINOES[name];
   
       const column = PLAYFIELD_COLUMNS / 2 - Math.floor(matrix.length / 2);
@@ -120,11 +126,13 @@ import { difficultyMultiplier } from "./script.js";
             this.isGameOver = true;
             return;
           }
-  
+    
           this.playfield[this.tetromino.row + row][this.tetromino.column + column] = this.tetromino.name;
         }
       }
-  
+    
+      hit.play();
+    
       this.processFilledRows();
       this.generateTetromino();
     }
@@ -133,14 +141,17 @@ import { difficultyMultiplier } from "./script.js";
       return this.tetromino.row + row < 0;
     }
   
+
     processFilledRows() {
-        const filledLines = this.findFilledRows();
-        if (filledLines.length > 0) {
-          this.score += filledLines.length * 10 * difficultyMultiplier;
-          document.getElementById('score').textContent = this.score;
-        }
-        this.removeFilledRows(filledLines);
+      const filledLines = this.findFilledRows();
+      if (filledLines.length > 0) {
+        this.score += filledLines.length * 10 * difficultyMultiplier;
+        document.getElementById('score').textContent = this.score;
+ 
+        hitTrick.play();
       }
+      this.removeFilledRows(filledLines);
+    }
       
   
     findFilledRows() {
